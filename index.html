@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mental Math Trainer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <header class="header">
+    <div class="header-title">🧮 Mental Math</div>
+    <div class="header-actions">
+      <button class="header-btn" id="focus-toggle">⚡ Focus: OFF</button>
+      <button class="header-btn" id="customize-toggle">🎯 Customize</button>
+      <button class="header-btn" id="stats-toggle">📊 Stats</button>
+    </div>
+  </header>
+
+  <div class="progress-section">
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+    <div class="progress-info">
+      <span id="progress-text">0 / 35,000</span>
+      <span id="today-count">Today: 0</span>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div id="question-area"></div>
+    <div id="feedback-area"></div>
+  </div>
+
+  <div id="next-area"></div>
+
+  <div class="today-section">
+    One question at a time. Every answer sharpens your mind.
+  </div>
+</div>
+
+<div class="stats-overlay" id="stats-panel">
+  <div class="stats-panel">
+    <div class="stats-header">
+      <h2>Progress &amp; Stats</h2>
+      <button class="stats-close" id="stats-close">&times;</button>
+    </div>
+    <div id="stats-panel-content"></div>
+  </div>
+</div>
+
+<div class="stats-overlay" id="customize-panel">
+  <div class="stats-panel customize-panel">
+    <div class="stats-header">
+      <h2>Customize Questions</h2>
+      <button class="stats-close" id="customize-close">&times;</button>
+    </div>
+    <p class="customize-hint">Toggle which question types appear in your session.</p>
+    <div id="customize-panel-content"></div>
+  </div>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/templates.js"></script>
+<script src="js/adaptation.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
