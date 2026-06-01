@@ -758,13 +758,13 @@ def('quad-sum-prod', 'Sum & Product of Roots', 'Quadratics', 4, 8, function(lv) 
 def('quad-ineq', 'Quadratic Inequality', 'Quadratics', 5, 10, function(lv) {
   const ranges = [[1, 5], [1, 8], [1, 12], [-3, 5], [-5, 8]];
   const [lo, hi] = ranges[Math.min(clamp(lv, 5, 10) - 5, 4)];
-  const r1 = randInt(lo, hi);
-  const r2 = randInt(lo, hi);
+  let r1 = randInt(lo, hi);
+  let r2 = randInt(lo, hi);
+  if (r1 > r2) { [r1, r2] = [r2, r1]; }
   const a = 1;
   const b = -(r1 + r2);
   const c = r1 * r2;
   const useLess = Math.random() > 0.5;
-  if (r1 > r2) { [r1, r2] = [r2, r1]; }
   const correctStr = useLess
     ? r1 + ' < x < ' + r2
     : 'x < ' + r1 + ' or x > ' + r2;
@@ -980,7 +980,7 @@ def('nat-square', 'Square Numbers', 'Natural Numbers', 2, 6, function(lv) {
     formatNum(n) + '² = ' + formatNum(correct),
     [
       'Compute: ' + formatNum(n) + ' × ' + formatNum(n),
-      (n >= 11 && n <= 19) ? 'Trick: (' + formatNum(n - 10) + ' + ' + formatNum(n - 10) + ') squared' : '',
+      (n >= 11 && n <= 19) ? 'Trick: (10 + ' + formatNum(n - 10) + ')^2 = 100 + 2x10x' + formatNum(n - 10) + ' + ' + formatNum((n - 10) * (n - 10)) + ' = ' + formatNum(correct) : '',
       '= ' + formatNum(correct)
     ],
     'nat-square'
@@ -1055,18 +1055,22 @@ def('squares-diff', 'Difference of Squares', 'Natural Numbers', 3, 7, function(l
 def('avg-basic', 'Average', 'Arithmetic', 2, 6, function(lv) {
   const cfg = [[3, 2, 20], [3, 3, 30], [4, 3, 50], [5, 4, 80], [5, 5, 100]];
   const [cnt, dLo, dHi] = cfg[clamp(lv, 2, 6) - 2];
-  const numbers = [];
-  let sum = 0;
-  for (let i = 0; i < cnt; i++) {
-    const n = randInt(dLo, dHi);
-    numbers.push(n);
-    sum += n;
+  let numbers, sum, correct;
+  for (let tries = 0; tries < 100; tries++) {
+    numbers = [];
+    sum = 0;
+    for (let i = 0; i < cnt; i++) {
+      const n = randInt(dLo, dHi);
+      numbers.push(n);
+      sum += n;
+    }
+    if (sum % cnt === 0) { correct = sum / cnt; break; }
   }
-  const correct = Math.floor(sum / cnt);
+  if (correct === undefined) { correct = Math.round(sum / cnt); }
   return wrap(
     'Average of: ' + numbers.join(', '),
     correct,
-    [correct + 1, correct - 1, Math.ceil(sum / cnt) + 1, sum, Math.floor(sum / cnt) + 2],
+    [correct + 1, correct - 1, correct + 2, correct - 2],
     'Average = ' + correct,
     ['Sum = ' + sum, 'Count = ' + cnt, 'Average = ' + sum + ' ÷ ' + cnt + ' = ' + correct],
     'avg-basic'
@@ -1074,17 +1078,18 @@ def('avg-basic', 'Average', 'Arithmetic', 2, 6, function(lv) {
 });
 
 def('pct-basic', 'Percentage', 'Arithmetic', 2, 6, function(lv) {
-  const cfg = [[10, 50, 10, 100], [20, 200, 5, 50], [25, 300, 10, 40], [10, 500, 8, 25], [15, 200, 10, 60]];
-  const [pLo, pHi, nLo, nHi] = cfg[clamp(lv, 2, 6) - 2];
-  const pct = randInt(pLo, pHi);
-  const num = randInt(nLo, nHi);
-  const correct = Math.round(pct * num / 100);
+  const pcts = [10, 20, 25, 50];
+  const resRanges = [[1, 10], [5, 20], [5, 30], [10, 50], [10, 100]];
+  const pct = pickRandom(pcts);
+  const [rLo, rHi] = resRanges[clamp(lv, 2, 6) - 2];
+  const result = randInt(rLo, rHi);
+  const num = result * 100 / pct;
   return wrap(
     formatNum(pct) + '% of ' + formatNum(num),
-    correct,
-    [correct + Math.round(pct / 10), correct - Math.round(pct / 10), Math.round((pct + 10) * num / 100), Math.round(pct * (num + 10) / 100), Math.round(pct * num / 50)],
-    formatNum(pct) + '% of ' + formatNum(num) + ' = ' + formatNum(correct),
-    ['= (' + formatNum(pct) + '/100) × ' + formatNum(num), '= ' + formatNum(correct)],
+    result,
+    [result + 1, result - 1, result + 2, result - 2],
+    formatNum(pct) + '% of ' + formatNum(num) + ' = ' + formatNum(result),
+    ['= (' + formatNum(pct) + '/100) × ' + formatNum(num), '= ' + formatNum(result)],
     'pct-basic'
   );
 });
@@ -1355,25 +1360,39 @@ def('speed-time', 'Speed Distance Time', 'Arithmetic', 3, 7, function(lv) {
 // ─── Linear Inequalities ───────────────────────────────────────────
 
 def('ineq-linear', 'Linear Inequalities', 'Inequalities', 4, 8, function(lv) {
-  const cfg = [[1, 5, 5, 15], [2, 8, 10, 30], [3, 10, 10, 50], [2, 12, 20, 100]];
-  const [cLo, cHi, rLo, rHi] = cfg[clamp(lv, 4, 8) - 4];
-  const coeff = rand(1, 2, 3);
-  const constTerm = rand(1, -1) * randInt(cLo, cHi);
-  const rhs = randInt(rLo, rHi);
+  const cfg = [[1, 5, 2, 5], [2, 8, 3, 8], [3, 10, 4, 12], [2, 12, 5, 15], [3, 15, 6, 20]];
+  const [cLo, cHi, xLo, xHi] = cfg[clamp(lv, 4, 8) - 4];
+  const a = randInt(cLo, cHi) * rand(1, -1);
+  const absA = Math.abs(a);
+  let k = randInt(xLo, xHi) * rand(1, -1);
+  if (k === 0) k = 1;
+  const b = randInt(1, 10) * rand(1, -1);
+  const rhs = a * k + b;
   const sign = rand('>', '<', '≥', '≤');
-  const xVal = Math.floor((rhs - constTerm) / coeff);
-  const flip = coeff < 0;
-  const solStr = flip ? 'x ' + (sign === '>' ? '<' : sign === '<' ? '>' : sign === '≥' ? '≤' : '≥') + ' ' + xVal : 'x ' + sign + ' ' + xVal;
-  const cStr = coeff === 1 ? '' : coeff === -1 ? '−' : String(coeff);
-  const qStr = cStr + 'x ' + (constTerm >= 0 ? '+ ' + constTerm : '− ' + Math.abs(constTerm)) + ' ' + sign + ' ' + rhs;
-  const wrongs = ['x ' + sign + ' ' + (xVal + 1), 'x ' + sign + ' ' + (xVal - 1), 'x ' + (sign === '>' ? '<' : sign === '<' ? '>' : sign === '≥' ? '≤' : '≥') + ' ' + xVal];
+  const flip = a < 0;
+  const finalSign = flip
+    ? (sign === '>' ? '<' : sign === '<' ? '>' : sign === '≥' ? '≤' : '≥')
+    : sign;
+  const solStr = 'x ' + finalSign + ' ' + k;
+  const aStr = a === 1 ? '' : a === -1 ? '−' : String(a);
+  const qStr = aStr + 'x ' + (b >= 0 ? '+ ' + b : '− ' + Math.abs(b)) + ' ' + sign + ' ' + rhs;
+  const wrongs = [
+    'x ' + finalSign + ' ' + (k + 1),
+    'x ' + finalSign + ' ' + (k - 1),
+    'x ' + (finalSign === '>' ? '<' : finalSign === '<' ? '>' : finalSign === '≥' ? '≤' : '≥') + ' ' + k
+  ];
   const options = genQ(solStr, ...wrongs);
   return {
     question: 'Solve: ' + qStr,
     options,
     correctIndex: ansIdx(options, solStr),
     solution: solStr,
-    solutionSteps: [qStr, 'Move terms: ' + cStr + 'x ' + sign + ' ' + (rhs - constTerm), 'Divide by ' + coeff + (flip ? ' (flip sign)' : ''), 'Result: ' + solStr],
+    solutionSteps: [
+      qStr,
+      'Move constant: ' + aStr + 'x ' + sign + ' ' + (rhs - b),
+      'Divide by ' + absA + (flip ? ' (flip sign)' : ''),
+      'Result: ' + solStr
+    ],
     subTopic: 'ineq-linear'
   };
 });
@@ -1515,14 +1534,15 @@ def('exp-eq', 'Exponential Equations', 'Exponents', 4, 8, function(lv) {
 def('simple-interest', 'Simple Interest', 'Arithmetic', 4, 8, function(lv) {
   const cfg = [[100, 500, 5, 10, 1, 3], [500, 2000, 5, 12, 1, 4], [1000, 5000, 8, 15, 2, 5], [2000, 10000, 10, 20, 2, 5]];
   const [pLo, pHi, rLo, rHi, tLo, tHi] = cfg[clamp(lv, 4, 8) - 4];
-  const p = randInt(pLo, pHi);
+  let p = randInt(Math.ceil(pLo / 100), Math.floor(pHi / 100)) * 100;
+  if (p < pLo) p = pLo;
   const r = randInt(rLo, rHi);
   const t = randInt(tLo, tHi);
   const si = p * r * t / 100;
   return wrap(
     'SI: P=' + p + ', R=' + r + '%, T=' + t + 'yr',
     si,
-    [Math.round(si + p / 100), Math.round(si - p / 100), Math.round(si * 1.5), Math.round(si * 0.5)],
+    [si + Math.round(p / 100), si - Math.round(p / 100), Math.round(si * 1.2), Math.round(si * 0.8)],
     'SI = ' + formatNum(si),
     ['SI = P × R × T / 100', '= ' + formatNum(p) + ' × ' + r + ' × ' + t + ' / 100', '= ' + formatNum(p * r * t) + ' / 100', '= ' + formatNum(si)],
     'simple-interest'
@@ -1532,16 +1552,17 @@ def('simple-interest', 'Simple Interest', 'Arithmetic', 4, 8, function(lv) {
 // ─── Profit & Loss ─────────────────────────────────────────────────
 
 def('profit-loss', 'Profit & Loss', 'Arithmetic', 4, 8, function(lv) {
-  const cfg = [[10, 50, 5, 20], [20, 100, 10, 30], [50, 200, 15, 40], [100, 500, 20, 50]];
+  const cfg = [[10, 50, 5, 25], [20, 100, 5, 25], [60, 200, 5, 25], [100, 500, 5, 25]];
   const [cLo, cHi, pLo, pHi] = cfg[clamp(lv, 4, 8) - 4];
-  const cp = randInt(cLo, cHi);
-  const pct = randInt(pLo, pHi);
+  const cp = randInt(Math.ceil(cLo / 20), Math.floor(cHi / 20)) * 20;
+  const pct = pickRandom([5, 10, 15, 20, 25]);
   const isProfit = Math.random() > 0.4;
-  const sp = isProfit ? Math.round(cp * (100 + pct) / 100) : Math.round(cp * (100 - pct) / 100);
+  const sp = isProfit ? cp * (100 + pct) / 100 : cp * (100 - pct) / 100;
+  const wrongSp = isProfit ? cp * (100 - pct) / 100 : cp * (100 + pct) / 100;
   return wrap(
     'CP=' + cp + ', ' + (isProfit ? 'profit' : 'loss') + ' ' + pct + '%. SP?',
     sp,
-    [isProfit ? Math.round(cp * (100 - pct) / 100) : Math.round(cp * (100 + pct) / 100), sp + Math.round(cp * 0.05), sp - Math.round(cp * 0.05)],
+    [wrongSp, sp + Math.round(cp * 0.05), sp - Math.round(cp * 0.05), Math.round(sp * 1.1), Math.round(sp * 0.9)],
     'SP = ' + formatNum(sp),
     ['SP = CP × (100 ' + (isProfit ? '+' : '−') + pct + ') / 100', '= ' + formatNum(cp) + ' × ' + (isProfit ? (100 + pct) : (100 - pct)) + ' / 100', '= ' + formatNum(sp)],
     'profit-loss'
