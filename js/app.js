@@ -99,6 +99,10 @@ function handleAnswer(idx) {
   const isCorrect = idx === currentQuestion.correctIndex;
   recordAnswer(currentQuestion.subTopic, isCorrect, timeMs);
   evaluateAdaptation(currentQuestion.subTopic);
+  if (lastLevelChange && lastLevelChange.newLevel > lastLevelChange.oldLevel) {
+    showLevelUp(lastLevelChange);
+    lastLevelChange = null;
+  }
   const correctText = currentQuestion.options[currentQuestion.correctIndex];
   renderFeedback(isCorrect, correctText, currentQuestion.solution, currentQuestion.solutionSteps);
   highlightOptions(currentQuestion.correctIndex, idx);
@@ -258,6 +262,30 @@ function renderCustomizePanel() {
       renderCustomizePanel();
     });
   });
+}
+
+function showLevelUp(change) {
+  const t = TEMPLATES.find(t => t.id === change.subTopic);
+  const name = t ? t.name : change.subTopic;
+  const existing = document.querySelector('.level-up-overlay');
+  if (existing) existing.remove();
+  const overlay = document.createElement('div');
+  overlay.className = 'level-up-overlay';
+  overlay.innerHTML =
+    '<div class="level-up-card">' +
+    '<div class="level-up-icon">&#11088;</div>' +
+    '<div class="level-up-title">Level Up!</div>' +
+    '<div class="level-up-detail">' + name + '</div>' +
+    '<div class="level-up-levels">' +
+    '<span class="level-up-old">' + change.oldLevel + '</span>' +
+    '<span class="level-up-arrow">&#8594;</span>' +
+    '<span class="level-up-new">' + change.newLevel + '</span>' +
+    '</div>' +
+    '<button class="level-up-close" onclick="this.parentElement.parentElement.remove()">&#10003;</button>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  setTimeout(function() { overlay.classList.add('visible'); }, 10);
+  setTimeout(function() { overlay.classList.remove('visible'); setTimeout(function() { overlay.remove(); }, 400); }, 2500);
 }
 
 document.addEventListener('DOMContentLoaded', init);

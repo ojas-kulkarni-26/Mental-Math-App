@@ -103,6 +103,8 @@ function getTimeThreshold(level) {
 
 const ADAPT_EVERY = 5;
 
+let lastLevelChange = null;
+
 function evaluateAdaptation(subTopic) {
   const s = getSubTopicStats(subTopic);
   if (s.attempted < ADAPT_EVERY) return s.level;
@@ -124,11 +126,13 @@ function evaluateAdaptation(subTopic) {
     }
   }
   if (newLevel !== s.level) {
+    const oldLevel = s.level;
     s.level = newLevel;
     s.attempted = 0;
     s.correct = 0;
     s.totalTimeMs = 0;
     saveStats();
+    lastLevelChange = { subTopic, oldLevel, newLevel };
   }
   return newLevel;
 }

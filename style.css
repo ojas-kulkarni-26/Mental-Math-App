@@ -641,3 +641,83 @@ body {
     padding: 16px;
   }
 }
+
+.level-up-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.level-up-overlay.visible {
+  opacity: 1;
+}
+.level-up-card {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  color: #fff;
+  padding: 32px 48px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(30, 58, 138, 0.4);
+  animation: levelUpBounce 0.6s ease;
+}
+@keyframes levelUpBounce {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.1); }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.level-up-icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+.level-up-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.level-up-detail {
+  font-size: 16px;
+  opacity: 0.9;
+  margin-bottom: 12px;
+}
+.level-up-levels {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 36px;
+  font-weight: 700;
+}
+.level-up-old {
+  opacity: 0.6;
+}
+.level-up-arrow {
+  color: #fcd34d;
+}
+.level-up-new {
+  color: #fcd34d;
+  text-shadow: 0 0 20px rgba(252, 211, 77, 0.5);
+}
+.level-up-close {
+  margin-top: 16px;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.level-up-close:hover {
+  background: rgba(255,255,255,0.35);
+}

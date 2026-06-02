@@ -34,8 +34,8 @@ function wrap(question, correct, wrongs, solution, solutionSteps, subTopic) {
 
 // ─── Natural Number Addition ───────────────────────────────────────────
 
-def('nat-add-no-carry', 'Addition (No Carry)', 'Natural Numbers', 1, 4, function(lv) {
-  const digs = clamp(lv, 1, 4);
+def('nat-add-no-carry', 'Addition (No Carry)', 'Natural Numbers', 1, 10, function(lv) {
+  const digs = clamp(lv, 1, 10);
   let a, b;
   for (let tries = 0; tries < 200; tries++) {
     const min = Math.pow(10, digs - 1);
@@ -63,7 +63,7 @@ def('nat-add-no-carry', 'Addition (No Carry)', 'Natural Numbers', 1, 4, function
   );
 });
 
-def('nat-add-carry', 'Addition (With Carry)', 'Natural Numbers', 1, 6, function(lv) {
+def('nat-add-carry', 'Addition (With Carry)', 'Natural Numbers', 1, 10, function(lv) {
   let a, b;
   const levels = [
     [1, 1, 5, 9],
@@ -71,9 +71,13 @@ def('nat-add-carry', 'Addition (With Carry)', 'Natural Numbers', 1, 6, function(
     [2, 2, 50, 99],
     [3, 2, 100, 500],
     [3, 3, 100, 500],
-    [4, 3, 1000, 5000]
+    [4, 3, 1000, 5000],
+    [4, 4, 5000, 20000],
+    [5, 4, 10000, 50000],
+    [5, 5, 50000, 200000],
+    [6, 5, 100000, 500000]
   ];
-  const [d1, d2, lo, hi] = levels[Math.min(clamp(lv, 1, 6) - 1, 5)];
+  const [d1, d2, lo, hi] = levels[Math.min(clamp(lv, 1, 10) - 1, 9)];
   for (let tries = 0; tries < 200; tries++) {
     a = randInt(Math.max(lo, Math.pow(10, d1 - 1)), Math.min(hi, Math.pow(10, d1) - 1));
     b = randInt(Math.max(lo, Math.pow(10, d2 - 1)), Math.min(hi, Math.pow(10, d2) - 1));
@@ -108,8 +112,8 @@ def('nat-add-carry', 'Addition (With Carry)', 'Natural Numbers', 1, 6, function(
 
 // ─── Natural Number Subtraction ────────────────────────────────────────
 
-def('nat-sub-no-borrow', 'Subtraction (No Borrow)', 'Natural Numbers', 1, 4, function(lv) {
-  const digs = clamp(lv, 1, 4);
+def('nat-sub-no-borrow', 'Subtraction (No Borrow)', 'Natural Numbers', 1, 10, function(lv) {
+  const digs = clamp(lv, 1, 10);
   let a, b;
   for (let tries = 0; tries < 200; tries++) {
     const min = Math.pow(10, digs - 1);
@@ -134,12 +138,13 @@ def('nat-sub-no-borrow', 'Subtraction (No Borrow)', 'Natural Numbers', 1, 4, fun
   );
 });
 
-def('nat-sub-borrow', 'Subtraction (With Borrow)', 'Natural Numbers', 2, 6, function(lv) {
+def('nat-sub-borrow', 'Subtraction (With Borrow)', 'Natural Numbers', 2, 10, function(lv) {
   let a, b;
   const configs = [
-    [2, 1], [2, 2], [3, 2], [3, 3], [4, 3]
+    [2, 1], [2, 2], [3, 2], [3, 3], [4, 3],
+    [4, 4], [5, 4], [5, 5], [6, 5]
   ];
-  const [d1, d2] = configs[Math.min(clamp(lv, 2, 6) - 2, 4)];
+  const [d1, d2] = configs[Math.min(clamp(lv, 2, 10) - 2, 8)];
   for (let tries = 0; tries < 200; tries++) {
     const min1 = Math.pow(10, d1 - 1);
     const max1 = Math.pow(10, d1) - 1;
@@ -186,16 +191,20 @@ def('nat-sub-borrow', 'Subtraction (With Borrow)', 'Natural Numbers', 2, 6, func
 
 // ─── Multiplication ────────────────────────────────────────────────────
 
-def('nat-mul', 'Multiplication', 'Natural Numbers', 1, 6, function(lv) {
+def('nat-mul', 'Multiplication', 'Natural Numbers', 1, 10, function(lv) {
   const configs = [
     [1, 1, 2, 9],
     [2, 1, 10, 9],
     [2, 2, 10, 30],
     [3, 1, 100, 9],
     [3, 2, 100, 30],
-    [3, 3, 100, 100]
+    [3, 3, 100, 100],
+    [4, 2, 100, 99],
+    [4, 3, 1000, 300],
+    [4, 3, 1000, 500],
+    [5, 3, 10000, 999]
   ];
-  const [d1, d2, rMin, rMax] = configs[Math.min(clamp(lv, 1, 6) - 1, 5)];
+  const [d1, d2, rMin, rMax] = configs[Math.min(clamp(lv, 1, 10) - 1, 9)];
   const min1 = Math.pow(10, d1 - 1);
   const max1 = Math.pow(10, d1) - 1;
   const a = randInt(min1, Math.max(min1, Math.min(rMin * 2, max1)));
@@ -215,9 +224,9 @@ def('nat-mul', 'Multiplication', 'Natural Numbers', 1, 6, function(lv) {
 
 // ─── Integer Operations ────────────────────────────────────────────────
 
-def('int-add', 'Integer Addition', 'Integers', 1, 6, function(lv) {
-  const ranges = [[1, 9], [1, 20], [1, 50], [1, 100], [1, 200], [1, 500]];
-  const [lo, hi] = ranges[Math.min(clamp(lv, 1, 6) - 1, 5)];
+def('int-add', 'Integer Addition', 'Integers', 1, 10, function(lv) {
+  const ranges = [[1, 9], [1, 20], [1, 50], [1, 100], [1, 200], [1, 500], [1, 1000], [1, 2000], [1, 5000], [1, 10000]];
+  const [lo, hi] = ranges[Math.min(clamp(lv, 1, 10) - 1, 9)];
   const a = rand(1, -1) * randInt(lo, hi);
   const b = rand(1, -1) * randInt(lo, hi);
   const correct = a + b;
@@ -239,9 +248,9 @@ def('int-add', 'Integer Addition', 'Integers', 1, 6, function(lv) {
   );
 });
 
-def('int-sub', 'Integer Subtraction', 'Integers', 1, 6, function(lv) {
-  const ranges = [[1, 9], [1, 20], [1, 50], [1, 100], [1, 200], [1, 500]];
-  const [lo, hi] = ranges[Math.min(clamp(lv, 1, 6) - 1, 5)];
+def('int-sub', 'Integer Subtraction', 'Integers', 1, 10, function(lv) {
+  const ranges = [[1, 9], [1, 20], [1, 50], [1, 100], [1, 200], [1, 500], [1, 1000], [1, 2000], [1, 5000], [1, 10000]];
+  const [lo, hi] = ranges[Math.min(clamp(lv, 1, 10) - 1, 9)];
   const a = rand(1, -1) * randInt(lo, hi);
   const b = rand(1, -1) * randInt(lo, hi);
   const correct = a - b;
@@ -259,9 +268,9 @@ def('int-sub', 'Integer Subtraction', 'Integers', 1, 6, function(lv) {
   );
 });
 
-def('int-mul', 'Integer Multiplication', 'Integers', 1, 5, function(lv) {
-  const ranges = [[1, 9], [1, 12], [1, 20], [1, 50], [1, 100]];
-  const [lo, hi] = ranges[Math.min(clamp(lv, 1, 5) - 1, 4)];
+def('int-mul', 'Integer Multiplication', 'Integers', 1, 10, function(lv) {
+  const ranges = [[1, 9], [1, 12], [1, 20], [1, 50], [1, 100], [1, 200], [1, 500], [1, 1000], [1, 2000], [1, 5000]];
+  const [lo, hi] = ranges[Math.min(clamp(lv, 1, 10) - 1, 9)];
   const a = rand(1, -1) * randInt(lo, hi);
   const b = rand(1, -1) * randInt(lo, hi);
   const correct = a * b;
@@ -279,9 +288,9 @@ def('int-mul', 'Integer Multiplication', 'Integers', 1, 5, function(lv) {
   );
 });
 
-def('int-div', 'Integer Division', 'Integers', 2, 6, function(lv) {
-  const ranges = [[1, 12], [1, 20], [1, 30], [1, 50], [1, 100]];
-  const [lo, hi] = ranges[Math.min(clamp(lv, 2, 6) - 2, 4)];
+def('int-div', 'Integer Division', 'Integers', 2, 10, function(lv) {
+  const ranges = [[1, 12], [1, 20], [1, 30], [1, 50], [1, 100], [1, 150], [1, 200], [1, 300], [1, 500]];
+  const [lo, hi] = ranges[Math.min(clamp(lv, 2, 10) - 2, 8)];
   const divisor = randInt(lo, hi);
   const quotient = randInt(lo, Math.min(hi, 50));
   const a = divisor * quotient;
@@ -306,9 +315,9 @@ def('int-div', 'Integer Division', 'Integers', 2, 6, function(lv) {
 
 // ─── Rational Numbers ──────────────────────────────────────────────────
 
-def('frac-add', 'Fraction Addition', 'Rational Numbers', 2, 7, function(lv) {
-  const denoms = [[2, 4], [3, 5], [2, 6], [4, 8], [3, 7], [5, 9]];
-  const [d1, d2] = denoms[Math.min(clamp(lv, 2, 7) - 2, 5)];
+def('frac-add', 'Fraction Addition', 'Rational Numbers', 2, 10, function(lv) {
+  const denoms = [[2, 4], [3, 5], [2, 6], [4, 8], [3, 7], [5, 9], [6, 11], [7, 13], [8, 15]];
+  const [d1, d2] = denoms[Math.min(clamp(lv, 2, 10) - 2, 8)];
   const den1 = randInt(d1, Math.min(d1 + 2, 9));
   const den2 = randInt(d2, Math.min(d2 + 2, 9));
   const num1 = randInt(1, den1 - 1);
@@ -335,9 +344,9 @@ def('frac-add', 'Fraction Addition', 'Rational Numbers', 2, 7, function(lv) {
   };
 });
 
-def('frac-sub', 'Fraction Subtraction', 'Rational Numbers', 2, 7, function(lv) {
-  const denoms = [[2, 4], [3, 5], [2, 6], [4, 8], [3, 7], [5, 9]];
-  const [d1, d2] = denoms[Math.min(clamp(lv, 2, 7) - 2, 5)];
+def('frac-sub', 'Fraction Subtraction', 'Rational Numbers', 2, 10, function(lv) {
+  const denoms = [[2, 4], [3, 5], [2, 6], [4, 8], [3, 7], [5, 9], [6, 11], [7, 13], [8, 15]];
+  const [d1, d2] = denoms[Math.min(clamp(lv, 2, 10) - 2, 8)];
   const den1 = randInt(d1, Math.min(d1 + 2, 9));
   const den2 = randInt(d2, Math.min(d2 + 2, 9));
   let num1 = randInt(1, den1 - 1);
@@ -364,9 +373,9 @@ def('frac-sub', 'Fraction Subtraction', 'Rational Numbers', 2, 7, function(lv) {
   };
 });
 
-def('frac-mul', 'Fraction Multiplication', 'Rational Numbers', 2, 6, function(lv) {
-  const ranges = [[3, 2], [5, 3], [7, 4], [9, 5], [12, 7]];
-  const [r1, r2] = ranges[Math.min(clamp(lv, 2, 6) - 2, 4)];
+def('frac-mul', 'Fraction Multiplication', 'Rational Numbers', 2, 10, function(lv) {
+  const ranges = [[3, 2], [5, 3], [7, 4], [9, 5], [12, 7], [15, 9], [18, 11], [20, 13], [25, 15]];
+  const [r1, r2] = ranges[Math.min(clamp(lv, 2, 10) - 2, 8)];
   const num1 = randInt(1, r1);
   const den1 = randInt(2, r1);
   const num2 = randInt(1, r2);
@@ -390,9 +399,9 @@ def('frac-mul', 'Fraction Multiplication', 'Rational Numbers', 2, 6, function(lv
   };
 });
 
-def('frac-div', 'Fraction Division', 'Rational Numbers', 3, 8, function(lv) {
-  const ranges = [[3, 2], [5, 3], [7, 4], [9, 5], [12, 7], [15, 9]];
-  const [r1, r2] = ranges[Math.min(clamp(lv, 3, 8) - 3, 5)];
+def('frac-div', 'Fraction Division', 'Rational Numbers', 3, 10, function(lv) {
+  const ranges = [[3, 2], [5, 3], [7, 4], [9, 5], [12, 7], [15, 9], [18, 11], [20, 13]];
+  const [r1, r2] = ranges[Math.min(clamp(lv, 3, 10) - 3, 7)];
   const num1 = randInt(1, r1);
   const den1 = randInt(2, r1);
   const num2 = randInt(1, r2);
@@ -416,9 +425,9 @@ def('frac-div', 'Fraction Division', 'Rational Numbers', 3, 8, function(lv) {
   };
 });
 
-def('frac-simplify', 'Simplify Fractions', 'Rational Numbers', 1, 5, function(lv) {
-  const ranges = [[6, 12], [10, 24], [15, 36], [20, 50], [30, 72]];
-  const [lo, hi] = ranges[Math.min(clamp(lv, 1, 5) - 1, 4)];
+def('frac-simplify', 'Simplify Fractions', 'Rational Numbers', 1, 10, function(lv) {
+  const ranges = [[6, 12], [10, 24], [15, 36], [20, 50], [30, 72], [40, 100], [50, 150], [60, 200], [80, 300], [100, 500]];
+  const [lo, hi] = ranges[Math.min(clamp(lv, 1, 10) - 1, 9)];
   const factor = randInt(2, Math.min(6, Math.floor(hi / lo)));
   const baseNum = randInt(1, Math.floor(lo / factor));
   const baseDen = randInt(2, Math.floor(lo / factor));
@@ -445,9 +454,9 @@ def('frac-simplify', 'Simplify Fractions', 'Rational Numbers', 1, 5, function(lv
   };
 });
 
-def('frac-compare', 'Compare Fractions', 'Rational Numbers', 2, 6, function(lv) {
-  const ranges = [[3, 5], [5, 7], [7, 10], [8, 12], [10, 15]];
-  const [r1, r2] = ranges[Math.min(clamp(lv, 2, 6) - 2, 4)];
+def('frac-compare', 'Compare Fractions', 'Rational Numbers', 2, 10, function(lv) {
+  const ranges = [[3, 5], [5, 7], [7, 10], [8, 12], [10, 15], [12, 18], [14, 20], [16, 22], [18, 25]];
+  const [r1, r2] = ranges[Math.min(clamp(lv, 2, 10) - 2, 8)];
   const den1 = randInt(2, r1);
   const den2 = randInt(2, r2);
   let num1 = randInt(1, den1 - 1);
@@ -483,9 +492,9 @@ def('frac-compare', 'Compare Fractions', 'Rational Numbers', 2, 6, function(lv) 
 
 // ─── Exponents ─────────────────────────────────────────────────────────
 
-def('pow-basic', 'Power Evaluation', 'Exponents', 1, 5, function(lv) {
-  const configs = [[2, 4, 2, 5], [2, 6, 2, 4], [3, 8, 2, 4], [2, 10, 2, 3], [2, 12, 3, 4]];
-  const [baseLo, baseHi, expLo, expHi] = configs[Math.min(clamp(lv, 1, 5) - 1, 4)];
+def('pow-basic', 'Power Evaluation', 'Exponents', 1, 10, function(lv) {
+  const configs = [[2, 4, 2, 5], [2, 6, 2, 4], [3, 8, 2, 4], [2, 10, 2, 3], [2, 12, 3, 4], [3, 12, 3, 5], [4, 10, 3, 4], [2, 15, 4, 5], [3, 8, 4, 6], [4, 12, 3, 5]];
+  const [baseLo, baseHi, expLo, expHi] = configs[Math.min(clamp(lv, 1, 10) - 1, 9)];
   const base = randInt(baseLo, baseHi);
   const exp = randInt(expLo, expHi);
   const correct = Math.pow(base, exp);
@@ -503,11 +512,11 @@ def('pow-basic', 'Power Evaluation', 'Exponents', 1, 5, function(lv) {
   );
 });
 
-def('pow-product', 'Product of Powers', 'Exponents', 3, 7, function(lv) {
-  const bases = [2, 3, 5, 6, 10];
+def('pow-product', 'Product of Powers', 'Exponents', 3, 10, function(lv) {
+  const bases = [2, 3, 5, 6, 7, 10, 12];
   const base = pickRandom(bases);
-  const expRanges = [[1, 3], [2, 4], [2, 5], [3, 5], [3, 6]];
-  const [eLo, eHi] = expRanges[Math.min(clamp(lv, 3, 7) - 3, 4)];
+  const expRanges = [[1, 3], [2, 4], [2, 5], [3, 5], [3, 6], [4, 6], [4, 7], [5, 7]];
+  const [eLo, eHi] = expRanges[Math.min(clamp(lv, 3, 10) - 3, 7)];
   const exp1 = randInt(eLo, eHi);
   const exp2 = randInt(eLo, eHi);
   const correct = Math.pow(base, exp1 + exp2);
@@ -525,11 +534,11 @@ def('pow-product', 'Product of Powers', 'Exponents', 3, 7, function(lv) {
   );
 });
 
-def('pow-power', 'Power of a Power', 'Exponents', 4, 8, function(lv) {
-  const bases = [2, 3, 5];
+def('pow-power', 'Power of a Power', 'Exponents', 4, 10, function(lv) {
+  const bases = [2, 3, 5, 7];
   const base = pickRandom(bases);
-  const expRanges = [[1, 3], [2, 3], [2, 4], [3, 4], [3, 5]];
-  const [eLo, eHi] = expRanges[Math.min(clamp(lv, 4, 8) - 4, 4)];
+  const expRanges = [[1, 3], [2, 3], [2, 4], [3, 4], [3, 5], [4, 5], [4, 6]];
+  const [eLo, eHi] = expRanges[Math.min(clamp(lv, 4, 10) - 4, 6)];
   const exp1 = randInt(eLo, eHi);
   const exp2 = randInt(eLo, eHi);
   const correct = Math.pow(base, exp1 * exp2);
@@ -547,9 +556,9 @@ def('pow-power', 'Power of a Power', 'Exponents', 4, 8, function(lv) {
   );
 });
 
-def('pow-neg', 'Negative Exponents', 'Exponents', 3, 7, function(lv) {
-  const configs = [[2, 4, 1, 3], [2, 5, 1, 3], [3, 6, 2, 3], [2, 8, 2, 4], [3, 10, 2, 4]];
-  const [bLo, bHi, eLo, eHi] = configs[Math.min(clamp(lv, 3, 7) - 3, 4)];
+def('pow-neg', 'Negative Exponents', 'Exponents', 3, 10, function(lv) {
+  const configs = [[2, 4, 1, 3], [2, 5, 1, 3], [3, 6, 2, 3], [2, 8, 2, 4], [3, 10, 2, 4], [4, 8, 2, 4], [3, 12, 3, 4], [5, 10, 2, 4]];
+  const [bLo, bHi, eLo, eHi] = configs[Math.min(clamp(lv, 3, 10) - 3, 7)];
   const base = randInt(bLo, bHi);
   const exp = randInt(eLo, eHi);
   const pow = Math.pow(base, exp);
@@ -572,11 +581,12 @@ def('pow-neg', 'Negative Exponents', 'Exponents', 3, 7, function(lv) {
 
 // ─── Logarithms ────────────────────────────────────────────────────────
 
-def('log-basic', 'Logarithm Evaluation', 'Logarithms', 3, 7, function(lv) {
+def('log-basic', 'Logarithm Evaluation', 'Logarithms', 3, 10, function(lv) {
   const configs = [
-    [2, 1, 5], [2, 2, 7], [3, 2, 5], [4, 2, 4], [5, 2, 3]
+    [2, 1, 5], [2, 2, 7], [3, 2, 5], [4, 2, 4], [5, 2, 3],
+    [3, 3, 6], [6, 2, 4], [7, 2, 3], [8, 2, 3]
   ];
-  const [base, minE, maxE] = configs[Math.min(clamp(lv, 3, 7) - 3, 4)];
+  const [base, minE, maxE] = configs[Math.min(clamp(lv, 3, 10) - 3, 8)];
   const exp = randInt(minE, maxE);
   const arg = Math.pow(base, exp);
   return wrap(
@@ -593,9 +603,9 @@ def('log-basic', 'Logarithm Evaluation', 'Logarithms', 3, 7, function(lv) {
   );
 });
 
-def('log-sum', 'Logarithm Sum', 'Logarithms', 4, 8, function(lv) {
-  const configs = [[2, 2, 4], [2, 3, 5], [3, 2, 4], [5, 2, 3], [2, 4, 6]];
-  const [base, minE, maxE] = configs[Math.min(clamp(lv, 4, 8) - 4, 4)];
+def('log-sum', 'Logarithm Sum', 'Logarithms', 4, 10, function(lv) {
+  const configs = [[2, 2, 4], [2, 3, 5], [3, 2, 4], [5, 2, 3], [2, 4, 6], [3, 3, 5], [4, 2, 4]];
+  const [base, minE, maxE] = configs[Math.min(clamp(lv, 4, 10) - 4, 6)];
   const exp1 = randInt(minE, maxE);
   const exp2 = randInt(minE, maxE);
   const a1 = Math.pow(base, exp1);
@@ -616,9 +626,9 @@ def('log-sum', 'Logarithm Sum', 'Logarithms', 4, 8, function(lv) {
   );
 });
 
-def('log-diff', 'Logarithm Difference', 'Logarithms', 4, 8, function(lv) {
-  const configs = [[2, 2, 5], [2, 3, 6], [3, 2, 5], [5, 2, 4], [2, 4, 7]];
-  const [base, minE, maxE] = configs[Math.min(clamp(lv, 4, 8) - 4, 4)];
+def('log-diff', 'Logarithm Difference', 'Logarithms', 4, 10, function(lv) {
+  const configs = [[2, 2, 5], [2, 3, 6], [3, 2, 5], [5, 2, 4], [2, 4, 7], [3, 3, 6], [4, 2, 5]];
+  const [base, minE, maxE] = configs[Math.min(clamp(lv, 4, 10) - 4, 6)];
   const exp1 = randInt(minE + 1, maxE);
   const exp2 = randInt(minE, exp1 - 1);
   const a1 = Math.pow(base, exp1);
@@ -639,9 +649,10 @@ def('log-diff', 'Logarithm Difference', 'Logarithms', 4, 8, function(lv) {
   );
 });
 
-def('log-change', 'Change of Base', 'Logarithms', 5, 9, function(lv) {
+def('log-change', 'Change of Base', 'Logarithms', 5, 10, function(lv) {
   const configs = [
-    [4, 8, 2], [8, 32, 2], [9, 27, 3], [25, 125, 5], [4, 32, 2], [27, 81, 3]
+    [4, 8, 2], [8, 32, 2], [9, 27, 3], [25, 125, 5], [4, 32, 2], [27, 81, 3],
+    [8, 64, 2], [125, 625, 5]
   ];
   const [base, arg, newBase] = pickRandom(configs);
   const expB = Math.round(Math.log(base) / Math.log(newBase));
@@ -673,9 +684,9 @@ def('log-change', 'Change of Base', 'Logarithms', 5, 9, function(lv) {
 
 // ─── Quadratics ────────────────────────────────────────────────────────
 
-def('quad-roots', 'Quadratic Roots', 'Quadratics', 4, 9, function(lv) {
-  const rRanges = [[1, 5], [1, 8], [1, 12], [1, 15], [-5, 5], [-10, 10]];
-  const [rLo, rHi] = rRanges[Math.min(clamp(lv, 4, 9) - 4, 5)];
+def('quad-roots', 'Quadratic Roots', 'Quadratics', 4, 10, function(lv) {
+  const rRanges = [[1, 5], [1, 8], [1, 12], [1, 15], [-5, 5], [-10, 10], [-15, 15]];
+  const [rLo, rHi] = rRanges[Math.min(clamp(lv, 4, 10) - 4, 6)];
   const r1 = randInt(rLo, rHi);
   let r2 = randInt(rLo, rHi);
   if (r2 === r1) r2 = r1 + rand(1, -1, 2, -2);
@@ -706,9 +717,9 @@ def('quad-roots', 'Quadratic Roots', 'Quadratics', 4, 9, function(lv) {
   };
 });
 
-def('quad-disc', 'Quadratic Discriminant', 'Quadratics', 5, 9, function(lv) {
-  const configs = [[1, 5, 1, 5], [1, 7, 1, 7], [1, 10, 1, 10], [2, 5, 1, 8], [1, 12, 1, 12]];
-  const [aLo, aHi, cLo, cHi] = configs[Math.min(clamp(lv, 5, 9) - 5, 4)];
+def('quad-disc', 'Quadratic Discriminant', 'Quadratics', 5, 10, function(lv) {
+  const configs = [[1, 5, 1, 5], [1, 7, 1, 7], [1, 10, 1, 10], [2, 5, 1, 8], [1, 12, 1, 12], [2, 8, 2, 15]];
+  const [aLo, aHi, cLo, cHi] = configs[Math.min(clamp(lv, 5, 10) - 5, 5)];
   const a = randInt(aLo, aHi);
   const b = randInt(-10, 10);
   const c = randInt(cLo, cHi);
@@ -729,9 +740,9 @@ def('quad-disc', 'Quadratic Discriminant', 'Quadratics', 5, 9, function(lv) {
   );
 });
 
-def('quad-sum-prod', 'Sum & Product of Roots', 'Quadratics', 4, 8, function(lv) {
-  const configs = [[1, 5, 1, 6], [1, 7, 1, 8], [1, 10, 1, 10], [2, 6, 1, 9], [3, 8, 2, 12]];
-  const [aLo, aHi, rLo, rHi] = configs[Math.min(clamp(lv, 4, 8) - 4, 4)];
+def('quad-sum-prod', 'Sum & Product of Roots', 'Quadratics', 4, 10, function(lv) {
+  const configs = [[1, 5, 1, 6], [1, 7, 1, 8], [1, 10, 1, 10], [2, 6, 1, 9], [3, 8, 2, 12], [4, 10, 3, 15], [2, 12, 5, 20]];
+  const [aLo, aHi, rLo, rHi] = configs[Math.min(clamp(lv, 4, 10) - 4, 6)];
   const a = randInt(aLo, aHi);
   const r1 = randInt(rLo, rHi);
   const r2 = randInt(rLo, rHi);
@@ -756,8 +767,8 @@ def('quad-sum-prod', 'Sum & Product of Roots', 'Quadratics', 4, 8, function(lv) 
 });
 
 def('quad-ineq', 'Quadratic Inequality', 'Quadratics', 5, 10, function(lv) {
-  const ranges = [[1, 5], [1, 8], [1, 12], [-3, 5], [-5, 8]];
-  const [lo, hi] = ranges[Math.min(clamp(lv, 5, 10) - 5, 4)];
+  const ranges = [[1, 5], [1, 8], [1, 12], [-3, 5], [-5, 8], [-10, 12], [-15, 20]];
+  const [lo, hi] = ranges[Math.min(clamp(lv, 5, 10) - 5, 6)];
   let r1 = randInt(lo, hi);
   let r2 = randInt(lo, hi);
   if (r1 > r2) { [r1, r2] = [r2, r1]; }
@@ -796,9 +807,9 @@ def('quad-ineq', 'Quadratic Inequality', 'Quadratics', 5, 10, function(lv) {
 
 // ─── Inequalities & Polynomials ────────────────────────────────────────
 
-def('mod-ineq', 'Modulus Inequality', 'Inequalities', 4, 8, function(lv) {
-  const ranges = [[2, 6], [3, 10], [5, 15], [5, 20], [10, 30]];
-  const [bLo, bHi] = ranges[Math.min(clamp(lv, 4, 8) - 4, 4)];
+def('mod-ineq', 'Modulus Inequality', 'Inequalities', 4, 10, function(lv) {
+  const ranges = [[2, 6], [3, 10], [5, 15], [5, 20], [10, 30], [10, 40], [15, 50]];
+  const [bLo, bHi] = ranges[Math.min(clamp(lv, 4, 10) - 4, 6)];
   const center = randInt(-10, 10);
   const bound = randInt(bLo, bHi);
   const useLess = Math.random() > 0.3;
@@ -838,8 +849,8 @@ def('mod-ineq', 'Modulus Inequality', 'Inequalities', 4, 8, function(lv) {
 });
 
 def('rat-root', 'Rational Root Theorem', 'Polynomials', 6, 10, function(lv) {
-  const rRanges = [[1, 4], [1, 6], [1, 8], [2, 6], [2, 8]];
-  const [rLo, rHi] = rRanges[Math.min(clamp(lv, 6, 10) - 6, 4)];
+  const rRanges = [[1, 4], [1, 6], [1, 8], [2, 6], [2, 8], [3, 10], [4, 12]];
+  const [rLo, rHi] = rRanges[Math.min(clamp(lv, 6, 10) - 6, 6)];
   const root = randInt(rLo, rHi) * rand(1, -1);
   const a = randInt(1, Math.min(3, rHi));
   const b = randInt(rLo, rHi) * rand(1, -1);
@@ -923,6 +934,19 @@ def('combined', 'Multi-Step Simplification', 'Mixed', 5, 10, function(lv) {
       const b = randInt(1, a - 1);
       parts.push({ type: 'sub', a, b });
       return { expr: a + ' − ' + b, val: a - b };
+    },
+    function() {
+      const a = randInt(5, 15);
+      const b = randInt(2, 4);
+      parts.push({ type: 'pow', base: a, exp: b });
+      return { expr: a + '^' + b, val: Math.pow(a, b) };
+    },
+    function() {
+      const base = randInt(3, 6);
+      const exp = randInt(2, 4);
+      const arg = Math.pow(base, exp);
+      parts.push({ type: 'log', base, arg, exp });
+      return { expr: 'log_' + base + '(' + arg + ')', val: exp };
     }
   ];
   const numOps = level <= 6 ? 2 : level <= 8 ? 3 : 4;
@@ -952,9 +976,9 @@ def('combined', 'Multi-Step Simplification', 'Mixed', 5, 10, function(lv) {
 
 // ─── Natural Numbers Division ───────────────────────────────────────
 
-def('nat-div', 'Division', 'Natural Numbers', 1, 5, function(lv) {
-  const cfg = [[2, 9, 2, 9], [2, 9, 9, 20], [2, 12, 10, 50], [3, 15, 10, 40], [5, 25, 10, 30]];
-  const [dLo, dHi, qLo, qHi] = cfg[clamp(lv, 1, 5) - 1];
+def('nat-div', 'Division', 'Natural Numbers', 1, 10, function(lv) {
+  const cfg = [[2, 9, 2, 9], [2, 9, 9, 20], [2, 12, 10, 50], [3, 15, 10, 40], [5, 25, 10, 30], [5, 20, 20, 60], [6, 30, 20, 50], [8, 40, 15, 40], [10, 50, 10, 30], [12, 60, 10, 25]];
+  const [dLo, dHi, qLo, qHi] = cfg[clamp(lv, 1, 10) - 1];
   const divisor = randInt(dLo, dHi);
   const quotient = randInt(qLo, qHi);
   const dividend = divisor * quotient;
@@ -968,9 +992,9 @@ def('nat-div', 'Division', 'Natural Numbers', 1, 5, function(lv) {
   );
 });
 
-def('nat-square', 'Square Numbers', 'Natural Numbers', 2, 6, function(lv) {
-  const cfg = [[11, 19], [20, 30], [31, 50], [51, 75], [76, 99]];
-  const [lo, hi] = cfg[clamp(lv, 2, 6) - 2];
+def('nat-square', 'Square Numbers', 'Natural Numbers', 2, 10, function(lv) {
+  const cfg = [[11, 19], [20, 30], [31, 50], [51, 75], [76, 99], [100, 150], [151, 200], [201, 300], [301, 500]];
+  const [lo, hi] = cfg[clamp(lv, 2, 10) - 2];
   const n = randInt(lo, hi);
   const correct = n * n;
   return wrap(
@@ -987,9 +1011,9 @@ def('nat-square', 'Square Numbers', 'Natural Numbers', 2, 6, function(lv) {
   );
 });
 
-def('nat-sqrt', 'Square Roots', 'Natural Numbers', 2, 6, function(lv) {
-  const cfg = [[2, 9], [10, 15], [16, 25], [26, 40], [41, 60]];
-  const [lo, hi] = cfg[clamp(lv, 2, 6) - 2];
+def('nat-sqrt', 'Square Roots', 'Natural Numbers', 2, 10, function(lv) {
+  const cfg = [[2, 9], [10, 15], [16, 25], [26, 40], [41, 60], [61, 80], [81, 100], [101, 130], [131, 160]];
+  const [lo, hi] = cfg[clamp(lv, 2, 10) - 2];
   const root = randInt(lo, hi);
   const square = root * root;
   return wrap(
@@ -1004,9 +1028,9 @@ def('nat-sqrt', 'Square Roots', 'Natural Numbers', 2, 6, function(lv) {
 
 // ─── Cubes ──────────────────────────────────────────────────────────
 
-def('cubes', 'Cube Numbers', 'Natural Numbers', 2, 5, function(lv) {
-  const cfg = [[2, 5], [6, 10], [11, 15], [2, 12]];
-  const [lo, hi] = cfg[clamp(lv, 2, 5) - 2];
+def('cubes', 'Cube Numbers', 'Natural Numbers', 2, 10, function(lv) {
+  const cfg = [[2, 5], [6, 10], [11, 15], [16, 20], [21, 25], [2, 12], [5, 15], [10, 20], [15, 25]];
+  const [lo, hi] = cfg[clamp(lv, 2, 10) - 2];
   const n = randInt(lo, hi);
   const correct = n * n * n;
   return wrap(
@@ -1019,9 +1043,9 @@ def('cubes', 'Cube Numbers', 'Natural Numbers', 2, 5, function(lv) {
   );
 });
 
-def('cube-root', 'Cube Roots', 'Natural Numbers', 3, 6, function(lv) {
-  const cfg = [[2, 5], [6, 10], [11, 15], [2, 15]];
-  const [lo, hi] = cfg[clamp(lv, 3, 6) - 3];
+def('cube-root', 'Cube Roots', 'Natural Numbers', 3, 10, function(lv) {
+  const cfg = [[2, 5], [6, 10], [11, 15], [16, 20], [21, 25], [2, 15], [5, 20], [10, 25]];
+  const [lo, hi] = cfg[clamp(lv, 3, 10) - 3];
   const root = randInt(lo, hi);
   const cube = root * root * root;
   return wrap(
@@ -1034,9 +1058,9 @@ def('cube-root', 'Cube Roots', 'Natural Numbers', 3, 6, function(lv) {
   );
 });
 
-def('squares-diff', 'Difference of Squares', 'Natural Numbers', 3, 7, function(lv) {
-  const cfg = [[2, 5], [3, 7], [4, 10], [5, 12], [6, 15]];
-  const [lo, hi] = cfg[clamp(lv, 3, 7) - 3];
+def('squares-diff', 'Difference of Squares', 'Natural Numbers', 3, 10, function(lv) {
+  const cfg = [[2, 5], [3, 7], [4, 10], [5, 12], [6, 15], [8, 20], [10, 25], [12, 30]];
+  const [lo, hi] = cfg[clamp(lv, 3, 10) - 3];
   const a = randInt(lo + 1, hi);
   const b = randInt(lo, a - 1);
   const correct = a * a - b * b;
@@ -1052,9 +1076,9 @@ def('squares-diff', 'Difference of Squares', 'Natural Numbers', 3, 7, function(l
 
 // ─── Averages & Percentages ─────────────────────────────────────────
 
-def('avg-basic', 'Average', 'Arithmetic', 2, 6, function(lv) {
-  const cfg = [[3, 2, 20], [3, 3, 30], [4, 3, 50], [5, 4, 80], [5, 5, 100]];
-  const [cnt, dLo, dHi] = cfg[clamp(lv, 2, 6) - 2];
+def('avg-basic', 'Average', 'Arithmetic', 2, 10, function(lv) {
+  const cfg = [[3, 2, 20], [3, 3, 30], [4, 3, 50], [5, 4, 80], [5, 5, 100], [6, 5, 150], [6, 10, 200], [7, 10, 300], [7, 20, 500]];
+  const [cnt, dLo, dHi] = cfg[clamp(lv, 2, 10) - 2];
   let numbers, sum, correct;
   for (let tries = 0; tries < 100; tries++) {
     numbers = [];
@@ -1077,11 +1101,11 @@ def('avg-basic', 'Average', 'Arithmetic', 2, 6, function(lv) {
   );
 });
 
-def('pct-basic', 'Percentage', 'Arithmetic', 2, 6, function(lv) {
-  const pcts = [10, 20, 25, 50];
-  const resRanges = [[1, 10], [5, 20], [5, 30], [10, 50], [10, 100]];
+def('pct-basic', 'Percentage', 'Arithmetic', 2, 10, function(lv) {
+  const pcts = [5, 10, 12.5, 15, 20, 25, 30, 50];
+  const resRanges = [[1, 10], [5, 20], [5, 30], [10, 50], [10, 100], [20, 200], [25, 300], [50, 500], [100, 1000]];
   const pct = pickRandom(pcts);
-  const [rLo, rHi] = resRanges[clamp(lv, 2, 6) - 2];
+  const [rLo, rHi] = resRanges[clamp(lv, 2, 10) - 2];
   const result = randInt(rLo, rHi);
   const num = result * 100 / pct;
   return wrap(
@@ -1094,9 +1118,9 @@ def('pct-basic', 'Percentage', 'Arithmetic', 2, 6, function(lv) {
   );
 });
 
-def('ratio-basic', 'Ratio', 'Arithmetic', 2, 5, function(lv) {
-  const cfg = [[2, 10], [3, 15], [4, 20], [6, 30]];
-  const [lo, hi] = cfg[clamp(lv, 2, 5) - 2];
+def('ratio-basic', 'Ratio', 'Arithmetic', 2, 10, function(lv) {
+  const cfg = [[2, 10], [3, 15], [4, 20], [6, 30], [8, 40], [10, 60], [12, 80], [15, 100], [20, 150]];
+  const [lo, hi] = cfg[clamp(lv, 2, 10) - 2];
   let a = randInt(lo, hi);
   let b = randInt(lo, hi);
   const g = gcd(a, b);
@@ -1116,9 +1140,9 @@ def('ratio-basic', 'Ratio', 'Arithmetic', 2, 5, function(lv) {
 
 // ─── Sequences ──────────────────────────────────────────────────────
 
-def('seq-ap', 'Arithmetic Progression', 'Sequences', 3, 7, function(lv) {
-  const cfg = [[1, 5, 1, 3, 3], [1, 8, 2, 4, 4], [2, 10, 2, 5, 5], [3, 12, 3, 6, 6], [5, 15, 4, 8, 6]];
-  const [aLo, aHi, dLo, dHi, n] = cfg[clamp(lv, 3, 7) - 3];
+def('seq-ap', 'Arithmetic Progression', 'Sequences', 3, 10, function(lv) {
+  const cfg = [[1, 5, 1, 3, 3], [1, 8, 2, 4, 4], [2, 10, 2, 5, 5], [3, 12, 3, 6, 6], [5, 15, 4, 8, 6], [5, 20, 5, 10, 7], [10, 30, 6, 12, 8], [10, 40, 8, 15, 8]];
+  const [aLo, aHi, dLo, dHi, n] = cfg[clamp(lv, 3, 10) - 3];
   const a = randInt(aLo, aHi);
   const d = randInt(dLo, dHi);
   const term = randInt(2, n);
@@ -1133,9 +1157,9 @@ def('seq-ap', 'Arithmetic Progression', 'Sequences', 3, 7, function(lv) {
   );
 });
 
-def('seq-gp', 'Geometric Progression', 'Sequences', 4, 8, function(lv) {
-  const cfg = [[1, 3, 2, 3, 4], [1, 4, 2, 4, 5], [2, 5, 2, 3, 5], [1, 6, 3, 4, 5], [1, 4, 2, 5, 6]];
-  const [aLo, aHi, rLo, rHi, n] = cfg[clamp(lv, 4, 8) - 4];
+def('seq-gp', 'Geometric Progression', 'Sequences', 4, 10, function(lv) {
+  const cfg = [[1, 3, 2, 3, 4], [1, 4, 2, 4, 5], [2, 5, 2, 3, 5], [1, 6, 3, 4, 5], [1, 4, 2, 5, 6], [2, 5, 3, 5, 6], [1, 4, 4, 6, 6]];
+  const [aLo, aHi, rLo, rHi, n] = cfg[clamp(lv, 4, 10) - 4];
   const a = randInt(aLo, aHi);
   const r = randInt(rLo, rHi);
   const term = randInt(2, n);
@@ -1157,7 +1181,11 @@ const TRIG_ANGLES = [
   { deg: 30, sin: 0.5, cos: Math.sqrt(3)/2, tan: 1/Math.sqrt(3) },
   { deg: 45, sin: 1/Math.sqrt(2), cos: 1/Math.sqrt(2), tan: 1 },
   { deg: 60, sin: Math.sqrt(3)/2, cos: 0.5, tan: Math.sqrt(3) },
-  { deg: 90, sin: 1, cos: 0, tan: Infinity }
+  { deg: 90, sin: 1, cos: 0, tan: Infinity },
+  { deg: 120, sin: Math.sqrt(3)/2, cos: -0.5, tan: -Math.sqrt(3) },
+  { deg: 135, sin: 1/Math.sqrt(2), cos: -1/Math.sqrt(2), tan: -1 },
+  { deg: 150, sin: 0.5, cos: -Math.sqrt(3)/2, tan: -1/Math.sqrt(3) },
+  { deg: 180, sin: 0, cos: -1, tan: 0 }
 ];
 
 const TRIG_STR = {
@@ -1165,12 +1193,16 @@ const TRIG_STR = {
   '30_0': '1/2', '30_1': '√3/2', '30_2': '1/√3',
   '45_0': '1/√2', '45_1': '1/√2', '45_2': '1',
   '60_0': '√3/2', '60_1': '1/2', '60_2': '√3',
-  '90_0': '1', '90_1': '0', '90_2': 'undefined'
+  '90_0': '1', '90_1': '0', '90_2': 'undefined',
+  '120_0': '√3/2', '120_1': '−1/2', '120_2': '−√3',
+  '135_0': '1/√2', '135_1': '−1/√2', '135_2': '−1',
+  '150_0': '1/2', '150_1': '−√3/2', '150_2': '−1/√3',
+  '180_0': '0', '180_1': '−1', '180_2': '0'
 };
 
-def('tri-ratios', 'Trig Ratios', 'Trigonometry', 3, 7, function(lv) {
-  const idx = clamp(lv, 3, 7) - 3;
-  const angles = idx < 2 ? [30, 45, 60] : [0, 30, 45, 60, 90];
+def('tri-ratios', 'Trig Ratios', 'Trigonometry', 3, 10, function(lv) {
+  const idx = clamp(lv, 3, 10) - 3;
+  const angles = idx < 2 ? [30, 45, 60] : idx < 4 ? [0, 30, 45, 60, 90] : [0, 30, 45, 60, 90, 120, 135, 150, 180];
   const angle = pickRandom(angles);
   const funcs = ['sin', 'cos', 'tan'];
   const fi = funcs.indexOf(pickRandom(funcs));
@@ -1190,17 +1222,25 @@ def('tri-ratios', 'Trig Ratios', 'Trigonometry', 3, 7, function(lv) {
   };
 });
 
-def('tri-identities', 'Trig Identities', 'Trigonometry', 4, 8, function(lv) {
-  const angle = rand(30, 45, 60);
+def('tri-identities', 'Trig Identities', 'Trigonometry', 4, 10, function(lv) {
+  const lev = clamp(lv, 4, 10);
+  const angles = lev <= 7 ? [30, 45, 60] : [30, 45, 60, 120, 135, 150];
+  const angle = pickRandom(angles);
   const rad = angle * Math.PI / 180;
   const sin = Math.sin(rad);
   const cos = Math.cos(rad);
+  const tan = Math.tan(rad);
   const identities = [
     { q: 'sin²' + angle + '° + cos²' + angle + '°', val: 1, sol: 'sin²θ + cos²θ = 1' },
     { q: 'sec²' + angle + '° − tan²' + angle + '°', val: 1, sol: 'sec²θ − tan²θ = 1' },
     { q: 'cosec²' + angle + '° − cot²' + angle + '°', val: 1, sol: 'cosec²θ − cot²θ = 1' },
     { q: '1 − sin²' + angle + '°', val: Math.round(cos * cos * 100) / 100, sol: 'cos²' + angle + '°' },
-    { q: '1 − cos²' + angle + '°', val: Math.round(sin * sin * 100) / 100, sol: 'sin²' + angle + '°' }
+    { q: '1 − cos²' + angle + '°', val: Math.round(sin * sin * 100) / 100, sol: 'sin²' + angle + '°' },
+    { q: 'sin' + angle + '° × cosec' + angle + '°', val: 1, sol: 'sinθ × cosecθ = 1' },
+    { q: 'cos' + angle + '° × sec' + angle + '°', val: 1, sol: 'cosθ × secθ = 1' },
+    { q: 'tan' + angle + '° × cot' + angle + '°', val: 1, sol: 'tanθ × cotθ = 1' },
+    { q: 'sin(180−' + angle + ')°', val: Math.round(sin * 100) / 100, sol: 'sin(180−θ) = sinθ' },
+    { q: 'cos(180−' + angle + ')°', val: Math.round(-cos * 100) / 100, sol: 'cos(180−θ) = −cosθ' }
   ];
   const id = pickRandom(identities);
   const correctVal = Math.round(id.val * 100) / 100;
@@ -1216,24 +1256,27 @@ def('tri-identities', 'Trig Identities', 'Trigonometry', 4, 8, function(lv) {
 
 // ─── Complex Numbers ────────────────────────────────────────────────
 
-def('complex-basic', 'Complex Numbers', 'Complex Numbers', 4, 8, function(lv) {
+def('complex-basic', 'Complex Numbers', 'Complex Numbers', 4, 10, function(lv) {
+  const lev = clamp(lv, 4, 10);
   const varieties = [
     function() {
-      const p = randInt(1, 4);
+      const p = lev <= 7 ? randInt(1, 4) : randInt(1, 8);
       const vals = ['i', '−1', '−i', '1'];
       return { q: 'i<sup>' + p + '</sup>', val: vals[(p - 1) % 4], sol: 'i^' + p + ' = ' + vals[(p - 1) % 4] };
     },
     function() {
-      const a = randInt(1, 5), b = randInt(1, 5);
-      const c = randInt(1, 5), d = randInt(1, 5);
+      const maxN = lev <= 6 ? 5 : lev <= 8 ? 8 : 10;
+      const a = randInt(1, maxN), b = randInt(1, maxN);
+      const c = randInt(1, maxN), d = randInt(1, maxN);
       const sign = rand(1, -1);
       const real = a + sign * c;
       const imag = b + (sign === 1 ? d : -d);
       return { q: '(' + a + '+' + b + 'i) ' + (sign > 0 ? '+' : '−') + ' (' + c + '+' + d + 'i)', val: real + (imag >= 0 ? '+' + imag + 'i' : imag + 'i'), sol: 'Real: ' + a + ' ' + (sign > 0 ? '+ ' + c : '− ' + c) + ' = ' + real + ', Imag: ' + b + ' ' + (sign > 0 ? '+ ' + d : '− ' + d) + ' = ' + imag + 'i' };
     },
     function() {
-      const a = randInt(1, 3), b = randInt(1, 3);
-      const c = randInt(1, 3), d = randInt(1, 3);
+      const maxN = lev <= 6 ? 3 : lev <= 8 ? 6 : 10;
+      const a = randInt(1, maxN), b = randInt(1, maxN);
+      const c = randInt(1, maxN), d = randInt(1, maxN);
       const real = a * c - b * d;
       const imag = a * d + b * c;
       return { q: '(' + a + '+' + b + 'i)(' + c + '+' + d + 'i)', val: real + (imag >= 0 ? '+' + imag + 'i' : imag + 'i'), sol: '= ' + a * c + ' + ' + a * d + 'i + ' + b * c + 'i + ' + b * d + 'i² = ' + real + ' + ' + imag + 'i' };
@@ -1256,9 +1299,9 @@ def('complex-basic', 'Complex Numbers', 'Complex Numbers', 4, 8, function(lv) {
 
 // ─── Coordinate Geometry ────────────────────────────────────────────
 
-def('coord-dist', 'Distance Formula', 'Coordinate Geometry', 3, 7, function(lv) {
-  const cfg = [[0, 5], [0, 10], [0, 15], [-5, 10], [-10, 15]];
-  const [lo, hi] = cfg[clamp(lv, 3, 7) - 3];
+def('coord-dist', 'Distance Formula', 'Coordinate Geometry', 3, 10, function(lv) {
+  const cfg = [[0, 5], [0, 10], [0, 15], [-5, 10], [-10, 15], [-10, 20], [-15, 25], [-20, 30]];
+  const [lo, hi] = cfg[clamp(lv, 3, 10) - 3];
   const x1 = randInt(lo, hi), y1 = randInt(lo, hi);
   const x2 = randInt(lo, hi), y2 = randInt(lo, hi);
   const dx = x2 - x1, dy = y2 - y1;
@@ -1275,9 +1318,9 @@ def('coord-dist', 'Distance Formula', 'Coordinate Geometry', 3, 7, function(lv) 
   );
 });
 
-def('coord-slope', 'Slope Formula', 'Coordinate Geometry', 3, 7, function(lv) {
-  const cfg = [[0, 5], [0, 10], [0, 15], [-5, 10], [-10, 15]];
-  const [lo, hi] = cfg[clamp(lv, 3, 7) - 3];
+def('coord-slope', 'Slope Formula', 'Coordinate Geometry', 3, 10, function(lv) {
+  const cfg = [[0, 5], [0, 10], [0, 15], [-5, 10], [-10, 15], [-10, 20], [-15, 25], [-20, 30]];
+  const [lo, hi] = cfg[clamp(lv, 3, 10) - 3];
   let x1 = randInt(lo, hi), y1 = randInt(lo, hi);
   let x2 = randInt(lo, hi), y2 = randInt(lo, hi);
   if (x1 === x2) x2 = x1 + 1;
@@ -1298,9 +1341,9 @@ def('coord-slope', 'Slope Formula', 'Coordinate Geometry', 3, 7, function(lv) {
 
 // ─── HCF / LCM ─────────────────────────────────────────────────────
 
-def('hcf-lcm', 'HCF & LCM', 'Number Theory', 2, 6, function(lv) {
-  const cfg = [[2, 9], [3, 12], [4, 15], [6, 20], [8, 25]];
-  const [lo, hi] = cfg[clamp(lv, 2, 6) - 2];
+def('hcf-lcm', 'HCF & LCM', 'Number Theory', 2, 10, function(lv) {
+  const cfg = [[2, 9], [3, 12], [4, 15], [6, 20], [8, 25], [10, 30], [12, 40], [15, 50], [20, 60]];
+  const [lo, hi] = cfg[clamp(lv, 2, 10) - 2];
   const a = randInt(lo, hi);
   let b = randInt(lo, hi);
   if (b === a) b = a + 1;
@@ -1322,9 +1365,12 @@ def('hcf-lcm', 'HCF & LCM', 'Number Theory', 2, 6, function(lv) {
 
 // ─── Prime Numbers ─────────────────────────────────────────────────
 
-def('prime-check', 'Prime Numbers', 'Number Theory', 2, 5, function(lv) {
-  const primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97];
-  const composites = [4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62, 63, 64, 65, 66, 68, 69, 70, 72, 74, 75, 76, 77, 78, 80, 81, 82, 84, 85, 86, 87, 88, 90, 91, 92, 93, 94, 95, 96, 98, 99, 100];
+def('prime-check', 'Prime Numbers', 'Number Theory', 2, 10, function(lv) {
+  const lev = clamp(lv, 2, 10);
+  const allPrimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293];
+  const allComposites = [4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62, 63, 64, 65, 66, 68, 69, 70, 72, 74, 75, 76, 77, 78, 80, 81, 82, 84, 85, 86, 87, 88, 90, 91, 92, 93, 94, 95, 96, 98, 99, 100, 102, 104, 105, 106, 108, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 128, 129, 130, 132, 133, 134, 135, 136, 138, 140, 141, 142, 143, 144, 145, 146, 147, 148, 150, 152, 153, 154, 155, 156, 158, 159, 160, 161, 162, 164, 165, 166, 168, 169, 170, 171, 172, 174, 175, 176, 177, 178, 180, 182, 183, 184, 185, 186, 187, 188, 189, 190, 192, 194, 195, 196, 198, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 224, 225, 226, 228, 230, 231, 232, 234, 235, 236, 237, 238, 240, 242, 243, 244, 245, 246, 247, 248, 249, 250, 252, 253, 254, 255, 256, 258, 259, 260, 261, 262, 264, 265, 266, 267, 268, 270, 272, 273, 274, 275, 276, 278, 279, 280, 282, 284, 285, 286, 287, 288, 289, 290, 291, 292, 294, 295, 296, 297, 298, 299, 300];
+  const primes = lev <= 5 ? allPrimes.filter(p => p <= 100) : lev <= 8 ? allPrimes.filter(p => p <= 200) : allPrimes;
+  const composites = lev <= 5 ? allComposites.filter(c => c <= 100) : lev <= 8 ? allComposites.filter(c => c <= 200) : allComposites;
   const isPrime = Math.random() > 0.4;
   const n = pickRandom(isPrime ? primes : composites);
   return wrap(
@@ -1341,9 +1387,9 @@ def('prime-check', 'Prime Numbers', 'Number Theory', 2, 5, function(lv) {
 
 // ─── Speed, Distance, Time ─────────────────────────────────────────
 
-def('speed-time', 'Speed Distance Time', 'Arithmetic', 3, 7, function(lv) {
-  const cfg = [[2, 5, 5, 10], [3, 8, 10, 15], [5, 10, 10, 20], [10, 20, 15, 30], [15, 30, 20, 40]];
-  const [sLo, sHi, tLo, tHi] = cfg[clamp(lv, 3, 7) - 3];
+def('speed-time', 'Speed Distance Time', 'Arithmetic', 3, 10, function(lv) {
+  const cfg = [[2, 5, 5, 10], [3, 8, 10, 15], [5, 10, 10, 20], [10, 20, 15, 30], [15, 30, 20, 40], [20, 50, 20, 50], [30, 80, 10, 30], [40, 100, 5, 20]];
+  const [sLo, sHi, tLo, tHi] = cfg[clamp(lv, 3, 10) - 3];
   const speed = randInt(sLo, sHi);
   const time = randInt(tLo, tHi);
   const dist = speed * time;
@@ -1359,9 +1405,9 @@ def('speed-time', 'Speed Distance Time', 'Arithmetic', 3, 7, function(lv) {
 
 // ─── Linear Inequalities ───────────────────────────────────────────
 
-def('ineq-linear', 'Linear Inequalities', 'Inequalities', 4, 8, function(lv) {
-  const cfg = [[1, 5, 2, 5], [2, 8, 3, 8], [3, 10, 4, 12], [2, 12, 5, 15], [3, 15, 6, 20]];
-  const [cLo, cHi, xLo, xHi] = cfg[clamp(lv, 4, 8) - 4];
+def('ineq-linear', 'Linear Inequalities', 'Inequalities', 4, 10, function(lv) {
+  const cfg = [[1, 5, 2, 5], [2, 8, 3, 8], [3, 10, 4, 12], [2, 12, 5, 15], [3, 15, 6, 20], [4, 20, 8, 25], [5, 25, 10, 30]];
+  const [cLo, cHi, xLo, xHi] = cfg[clamp(lv, 4, 10) - 4];
   const a = randInt(cLo, cHi) * rand(1, -1);
   const absA = Math.abs(a);
   let k = randInt(xLo, xHi) * rand(1, -1);
@@ -1399,9 +1445,9 @@ def('ineq-linear', 'Linear Inequalities', 'Inequalities', 4, 8, function(lv) {
 
 // ─── Remainder Theorem ─────────────────────────────────────────────
 
-def('poly-remainder', 'Remainder Theorem', 'Polynomials', 5, 9, function(lv) {
-  const cfg = [[1, 3], [1, 5], [2, 6], [3, 8], [1, 10]];
-  const [lo, hi] = cfg[clamp(lv, 5, 9) - 5];
+def('poly-remainder', 'Remainder Theorem', 'Polynomials', 5, 10, function(lv) {
+  const cfg = [[1, 3], [1, 5], [2, 6], [3, 8], [1, 10], [2, 12]];
+  const [lo, hi] = cfg[clamp(lv, 5, 10) - 5];
   const a = randInt(1, 3);
   const b = randInt(lo, hi) * rand(1, -1);
   const c = randInt(lo, hi) * rand(1, -1);
@@ -1421,9 +1467,9 @@ def('poly-remainder', 'Remainder Theorem', 'Polynomials', 5, 9, function(lv) {
 
 // ─── Permutations & Combinations ───────────────────────────────────
 
-def('perm-basic', 'Permutations', 'Combinatorics', 4, 8, function(lv) {
-  const cfg = [[4, 2], [5, 2], [6, 2], [6, 3], [7, 3], [8, 3]];
-  const [n, r] = cfg[Math.min(clamp(lv, 4, 8) - 4, 5)];
+def('perm-basic', 'Permutations', 'Combinatorics', 4, 10, function(lv) {
+  const cfg = [[4, 2], [5, 2], [6, 2], [6, 3], [7, 3], [8, 3], [9, 3], [10, 4], [11, 4], [12, 4]];
+  const [n, r] = cfg[Math.min(clamp(lv, 4, 10) - 4, 9)];
   let perm = 1;
   for (let i = n; i > n - r; i--) perm *= i;
   return wrap(
@@ -1436,9 +1482,9 @@ def('perm-basic', 'Permutations', 'Combinatorics', 4, 8, function(lv) {
   );
 });
 
-def('comb-basic', 'Combinations', 'Combinatorics', 4, 8, function(lv) {
-  const cfg = [[4, 2], [5, 2], [6, 2], [6, 3], [7, 3], [8, 3]];
-  const [n, r] = cfg[Math.min(clamp(lv, 4, 8) - 4, 5)];
+def('comb-basic', 'Combinations', 'Combinatorics', 4, 10, function(lv) {
+  const cfg = [[4, 2], [5, 2], [6, 2], [6, 3], [7, 3], [8, 3], [9, 3], [10, 4], [11, 4], [12, 4]];
+  const [n, r] = cfg[Math.min(clamp(lv, 4, 10) - 4, 9)];
   let perm = 1;
   for (let i = n; i > n - r; i--) perm *= i;
   let factR = 1;
@@ -1456,9 +1502,9 @@ def('comb-basic', 'Combinations', 'Combinatorics', 4, 8, function(lv) {
 
 // ─── Probability ───────────────────────────────────────────────────
 
-def('prob-basic', 'Probability', 'Probability', 4, 8, function(lv) {
-  const cfg = [[2, 6], [2, 8], [3, 10], [4, 12], [5, 15]];
-  const [lo, hi] = cfg[clamp(lv, 4, 8) - 4];
+def('prob-basic', 'Probability', 'Probability', 4, 10, function(lv) {
+  const cfg = [[2, 6], [2, 8], [3, 10], [4, 12], [5, 15], [6, 20], [8, 25], [10, 30]];
+  const [lo, hi] = cfg[clamp(lv, 4, 10) - 4];
   const total = randInt(lo, hi);
   const fav = randInt(1, Math.max(1, total - 1));
   const [sNum, sDen] = simplifyFrac(fav, total);
@@ -1478,9 +1524,9 @@ def('prob-basic', 'Probability', 'Probability', 4, 8, function(lv) {
 
 // ─── Matrices ──────────────────────────────────────────────────────
 
-def('mat-det', 'Matrix Determinant', 'Matrices', 4, 8, function(lv) {
-  const cfg = [[1, 5], [1, 8], [2, 10], [2, 12], [3, 15]];
-  const [lo, hi] = cfg[clamp(lv, 4, 8) - 4];
+def('mat-det', 'Matrix Determinant', 'Matrices', 4, 10, function(lv) {
+  const cfg = [[1, 5], [1, 8], [2, 10], [2, 12], [3, 15], [4, 18], [5, 20], [6, 25]];
+  const [lo, hi] = cfg[clamp(lv, 4, 10) - 4];
   const a = randInt(lo, hi) * rand(1, -1);
   const b = randInt(lo, hi) * rand(1, -1);
   const c = randInt(lo, hi) * rand(1, -1);
@@ -1498,9 +1544,9 @@ def('mat-det', 'Matrix Determinant', 'Matrices', 4, 8, function(lv) {
 
 // ─── Log & Exponential Equations ───────────────────────────────────
 
-def('log-eq', 'Log Equations', 'Logarithms', 4, 8, function(lv) {
-  const cfg = [[2, 6, 8], [2, 5, 10], [3, 5, 8], [2, 7, 12], [3, 6, 10]];
-  const [bLo, bHi] = cfg[clamp(lv, 4, 8) - 4];
+def('log-eq', 'Log Equations', 'Logarithms', 4, 10, function(lv) {
+  const cfg = [[2, 6, 8], [2, 5, 10], [3, 5, 8], [2, 7, 12], [3, 6, 10], [4, 7, 12], [5, 6, 10]];
+  const [bLo, bHi] = cfg[clamp(lv, 4, 10) - 4];
   const base = randInt(bLo, bHi);
   const exp = randInt(2, 6);
   const result = Math.pow(base, exp);
@@ -1513,9 +1559,9 @@ def('log-eq', 'Log Equations', 'Logarithms', 4, 8, function(lv) {
   }
 });
 
-def('exp-eq', 'Exponential Equations', 'Exponents', 4, 8, function(lv) {
-  const cfg = [[2, 8], [2, 10], [3, 6], [2, 12], [5, 5]];
-  const [bLo, bHi] = cfg[clamp(lv, 4, 8) - 4];
+def('exp-eq', 'Exponential Equations', 'Exponents', 4, 10, function(lv) {
+  const cfg = [[2, 8], [2, 10], [3, 6], [2, 12], [5, 5], [3, 10], [4, 8], [6, 6]];
+  const [bLo, bHi] = cfg[clamp(lv, 4, 10) - 4];
   const base = randInt(bLo, bHi);
   const exp = randInt(2, 6);
   const result = Math.pow(base, exp);
@@ -1531,9 +1577,9 @@ def('exp-eq', 'Exponential Equations', 'Exponents', 4, 8, function(lv) {
 
 // ─── Simple Interest ───────────────────────────────────────────────
 
-def('simple-interest', 'Simple Interest', 'Arithmetic', 4, 8, function(lv) {
-  const cfg = [[100, 500, 5, 10, 1, 3], [500, 2000, 5, 12, 1, 4], [1000, 5000, 8, 15, 2, 5], [2000, 10000, 10, 20, 2, 5]];
-  const [pLo, pHi, rLo, rHi, tLo, tHi] = cfg[clamp(lv, 4, 8) - 4];
+def('simple-interest', 'Simple Interest', 'Arithmetic', 4, 10, function(lv) {
+  const cfg = [[100, 500, 5, 10, 1, 3], [500, 2000, 5, 12, 1, 4], [1000, 5000, 8, 15, 2, 5], [2000, 10000, 10, 20, 2, 5], [5000, 25000, 12, 24, 3, 6], [10000, 50000, 15, 30, 3, 7], [20000, 100000, 18, 36, 4, 8]];
+  const [pLo, pHi, rLo, rHi, tLo, tHi] = cfg[clamp(lv, 4, 10) - 4];
   let p = randInt(Math.ceil(pLo / 100), Math.floor(pHi / 100)) * 100;
   if (p < pLo) p = pLo;
   const r = randInt(rLo, rHi);
@@ -1551,9 +1597,9 @@ def('simple-interest', 'Simple Interest', 'Arithmetic', 4, 8, function(lv) {
 
 // ─── Profit & Loss ─────────────────────────────────────────────────
 
-def('profit-loss', 'Profit & Loss', 'Arithmetic', 4, 8, function(lv) {
-  const cfg = [[10, 50, 5, 25], [20, 100, 5, 25], [60, 200, 5, 25], [100, 500, 5, 25]];
-  const [cLo, cHi, pLo, pHi] = cfg[clamp(lv, 4, 8) - 4];
+def('profit-loss', 'Profit & Loss', 'Arithmetic', 4, 10, function(lv) {
+  const cfg = [[10, 50, 5, 25], [20, 100, 5, 25], [60, 200, 5, 25], [100, 500, 5, 25], [200, 1000, 8, 30], [500, 2000, 10, 35], [1000, 5000, 12, 40]];
+  const [cLo, cHi, pLo, pHi] = cfg[clamp(lv, 4, 10) - 4];
   const cp = randInt(Math.ceil(cLo / 20), Math.floor(cHi / 20)) * 20;
   const pct = pickRandom([5, 10, 15, 20, 25]);
   const isProfit = Math.random() > 0.4;
@@ -1571,7 +1617,8 @@ def('profit-loss', 'Profit & Loss', 'Arithmetic', 4, 8, function(lv) {
 
 // ─── Number Series ─────────────────────────────────────────────────
 
-def('num-series', 'Number Series', 'Patterns', 3, 7, function(lv) {
+def('num-series', 'Number Series', 'Patterns', 3, 10, function(lv) {
+  const lev = clamp(lv, 3, 10);
   const patterns = [
     { gen: i => i * 2, name: '×2' },
     { gen: i => i * 3, name: '×3' },
@@ -1579,10 +1626,13 @@ def('num-series', 'Number Series', 'Patterns', 3, 7, function(lv) {
     { gen: i => i + 5, name: '+5' },
     { gen: i => i * i, name: 'n²' },
     { gen: i => Math.pow(2, i), name: '2^n' },
-    { gen: i => Math.pow(3, i), name: '3^n' }
+    { gen: i => Math.pow(3, i), name: '3^n' },
+    { gen: i => i * (i + 1), name: 'n(n+1)' },
+    { gen: i => Math.pow(4, i), name: '4^n' },
+    { gen: i => i * i * i, name: 'n³' }
   ];
-  const pat = pickRandom(patterns);
-  const start = randInt(1, 3);
+  const pat = pickRandom(lev <= 7 ? patterns.slice(0, 7) : patterns);
+  const start = lev <= 7 ? randInt(1, 3) : randInt(1, 5);
   const terms = [];
   for (let i = 0; i < 4; i++) terms.push(pat.gen(start + i));
   const next = pat.gen(start + 4);
